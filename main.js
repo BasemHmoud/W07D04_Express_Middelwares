@@ -6,6 +6,7 @@ const port = 3000;
 //pulse check q4
 app.use(express.json());
 
+const userRouter = express.Router();
 const users = ["John", "Mark"];
 //pulse check q1
 const logUsers = (req, res, next) => {
@@ -24,7 +25,20 @@ const logMethod = (req, res, next) => {
 
 app.use(logMethod);
 
-app.get("/users", (req, res, next) => {
+// app.get("/users", (req, res, next) => {
+//   //if array user empty send error "no users" and status 500
+//   if (users.length === 0) {
+//     const err = new Error("no users");
+//     err.status = 500;
+//     next(err);
+//     //if array user not empty return all user
+//   } else {
+//     res.json(users);
+//   }
+// });
+
+//practice q1
+userRouter.get("/users", (req, res, next) => {
   //if array user empty send error "no users" and status 500
   if (users.length === 0) {
     const err = new Error("no users");
@@ -36,8 +50,10 @@ app.get("/users", (req, res, next) => {
   }
 });
 
-//pulse check q5
+app.use(userRouter);
 
+//pulse check q5
+//you must add before app.listen
 app.use((err, req, res, next) => {
   // set the status code
   res.status(err.status);
